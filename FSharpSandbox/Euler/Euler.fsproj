@@ -6,7 +6,7 @@
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
     <SchemaVersion>2.0</SchemaVersion>
     <ProjectGuid>e64a4504-451e-4d51-946d-5b5969139ba0</ProjectGuid>
-    <OutputType>Library</OutputType>
+    <OutputType>Exe</OutputType>
     <RootNamespace>Euler</RootNamespace>
     <AssemblyName>Euler</AssemblyName>
     <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
@@ -44,6 +44,7 @@
   <ItemGroup>
     <Compile Include="Problems_1_10.fs" />
     <Compile Include="Problems_11_20.fs" />
+    <Compile Include="ProblemRunner.fs" />
   </ItemGroup>
   <PropertyGroup>
     <MinimumVisualStudioVersion Condition="'$(MinimumVisualStudioVersion)' == ''">11</MinimumVisualStudioVersion>

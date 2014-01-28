@@ -18,27 +18,18 @@ module Problems_1_10
 //1, 2, 3, 5, 8, 13, 21, 34, 55, 89, ...
 //By considering the terms in the Fibonacci sequence whose values do not exceed four million, find the sum of the even-valued terms.
 
-//  let problem2 =
-//    let fib x =
-//        let result = [0;1]
-//        let nextVal = result.[result.Length-1] + result.[result.Length-2]
-//        let a = nextVal
-//        while a < x do
-//            let result = a :: result
-//
-//        List.rev result
-//
-//    fib 4000000
-//    |> Seq.filter (fun x -> x%2=0)
-//    |> Seq.sum
-//
-//
-//  let rec fib n =
-//    let result = [0]
-//    match n with
-//    0 -> result
-//    |1 -> [0;1]
-//    |_-> List.append result (fib (n-1 + n-2))
+  let problem2 =
+    let rec fib a b max =
+      if a + b < max then
+        let current = a + b
+        let rest = fib b current max 
+        current :: rest
+      else 
+        []
+
+    1::2::(fib 1 2 4000000)
+    |> Seq.filter (fun x -> x%2=0)
+    |> Seq.sum
 
 
 //Largest prime factor
