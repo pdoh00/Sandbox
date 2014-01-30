@@ -37,7 +37,60 @@ module Problems_1_10
 //The prime factors of 13195 are 5, 7, 13 and 29.
 //What is the largest prime factor of the number 600851475143 ?
 
+  let problem3 =
+    //http://en.wikipedia.org/wiki/Quadratic_sieve
+//    let quadraticSieve (x:int64) = 
+//      [x]
 
+    let rec filterRec p (data:list<int64>) =
+        let nextPList = 
+          data
+          |> Seq.filter (fun x-> x > p)
+          |> Seq.toList
+        
+        let nextP =
+          if List.isEmpty nextPList then
+            p
+          else
+            nextPList.Head
+
+        if p < nextP then
+          let primes, rest = 
+            data
+            |> List.partition (fun x-> x<=p)
+            
+          let current = 
+            rest 
+            |> List.filter (fun x -> not(x % p = 0L))
+
+          filterRec current.Head primes@current
+        else
+          data
+   
+    let filterPrimes (data:list<int64>) =
+      let result = filterRec 2L data
+      result
+
+    let sieveOfEratosthenes (n:int64) = 
+      printf "Running sieveOfEratosthenes\n"
+
+      let primes = 
+        //let allNums = [2L..n]
+        let oddNumsToN = [for i in 3L..n do if not(i % 2L = 0L) then yield i ]
+        printf "allNums filled -> filtering primes\n"
+        oddNumsToN
+        |> filterPrimes
+      printf "primes filtered\n"
+      primes
+
+    let primeFactors n =
+      sieveOfEratosthenes (n-1L)
+      |> Seq.filter (fun x-> n % x= 0L)
+
+    primeFactors 131951212L
+//    |> Seq.max
+
+    
 //Largest palindrome product
 //Problem 4
 //A palindromic number reads the same both ways. The largest palindrome made from the product of two 2-digit numbers is 9009 = 91 × 99.
