@@ -1,16 +1,14 @@
-﻿
-
-module Problems_1_10
+﻿module Problems_1_10
 
 //Multiples of 3 and 5
 //Problem 1
 //If we list all the natural numbers below 10 that are multiples of 3 or 5, we get 3, 5, 6 and 9. The sum of these multiples is 23.
 //Find the sum of all the multiples of 3 or 5 below 1000.
 
-  let problem1 = 
-    [1..999]
-    |> List.filter (fun x -> x%3=0 || x%5=0)
-    |> List.sum
+let problem1 = 
+  [1..999]
+  |> List.filter (fun x -> x%3=0 || x%5=0)
+  |> List.sum
 
 //Even Fibonacci numbers
 //Problem 2
@@ -18,18 +16,18 @@ module Problems_1_10
 //1, 2, 3, 5, 8, 13, 21, 34, 55, 89, ...
 //By considering the terms in the Fibonacci sequence whose values do not exceed four million, find the sum of the even-valued terms.
 
-  let problem2 =
-    let rec fib a b max =
-      if a + b < max then
-        let current = a + b
-        let rest = fib b current max 
-        current :: rest
-      else 
-        []
+let problem2 =
+  let rec fib a b max =
+    if a + b < max then
+      let current = a + b
+      let rest = fib b current max 
+      current :: rest
+    else 
+      []
 
-    1::2::(fib 1 2 4000000)
-    |> Seq.filter (fun x -> x%2=0)
-    |> Seq.sum
+  1::2::(fib 1 2 4000000)
+  |> Seq.filter (fun x -> x%2=0)
+  |> Seq.sum
 
 
 //Largest prime factor
@@ -37,57 +35,92 @@ module Problems_1_10
 //The prime factors of 13195 are 5, 7, 13 and 29.
 //What is the largest prime factor of the number 600851475143 ?
 
-  let problem3 =
-    //http://en.wikipedia.org/wiki/Quadratic_sieve
+//http://en.wikipedia.org/wiki/Quadratic_sieve
 //    let quadraticSieve (x:int64) = 
 //      [x]
 
-    let rec filterRec p (data:list<int64>) =
-        let nextPList = 
-          data
-          |> Seq.filter (fun x-> x > p)
-          |> Seq.toList
-        
-        let nextP =
-          if List.isEmpty nextPList then
-            p
-          else
-            nextPList.Head
+//  let problem3 =
+//    let aryInit = [|for i in 2L..13195L do yield (i,true)|]
+//    
+//    let x, y = 
+//      aryInit
+//      |> List.unzip
+  
+    //let p = 2L
+    
+//    let testList, _ = 
+//      aryInit
+//      |> List.unzip
+//    testList
 
-        if p < nextP then
-          let primes, rest = 
-            data
-            |> List.partition (fun x-> x<=p)
-            
-          let current = 
-            rest 
-            |> List.filter (fun x -> not(x % p = 0L))
+  
 
-          filterRec current.Head primes@current
-        else
-          data
-   
-    let filterPrimes (data:list<int64>) =
-      let result = filterRec 2L data
-      result
+//try 2 - still takes way too long
+//    let IsPrimeMultipleTest (n:int64) (x:int64) =
+//      x = n || x % n <> 0L
+//
+//    let rec RemoveAllMultiples (listN:list<int64>) (listX:list<int64>) = 
+//      match listN with
+//      | head::tail -> RemoveAllMultiples tail (List.filter (IsPrimeMultipleTest head) listX)
+//      | [] -> listX
+//
+//    let GetPrimesUpTo (n:int64) =
+//      let max = int64 (sqrt(float n))
+//      RemoveAllMultiples [2L..max] [2L..n]
+//    
+//    let primeFactors n =
+//      GetPrimesUpTo (n-1L)
+//      |> Seq.filter (fun x-> n % x= 0L)
+//
+//    primeFactors 131951122L
 
-    let sieveOfEratosthenes (n:int64) = 
-      printf "Running sieveOfEratosthenes\n"
-
-      let primes = 
-        //let allNums = [2L..n]
-        let oddNumsToN = [for i in 3L..n do if not(i % 2L = 0L) then yield i ]
-        printf "allNums filled -> filtering primes\n"
-        oddNumsToN
-        |> filterPrimes
-      printf "primes filtered\n"
-      primes
-
-    let primeFactors n =
-      sieveOfEratosthenes (n-1L)
-      |> Seq.filter (fun x-> n % x= 0L)
-
-    primeFactors 131951212L
+//try 1 - takes way too long
+//    let rec filterRec p (data:list<int64>) =
+//        let nextPList = 
+//          data
+//          |> Seq.filter (fun x-> x > p)
+//          |> Seq.toList
+//        
+//        let nextP =
+//          if List.isEmpty nextPList then
+//            p
+//          else
+//            nextPList.Head
+//
+//        if p < nextP then
+//          let primes, rest = 
+//            data
+//            |> List.partition (fun x-> x<=p)
+//            
+//          let current = 
+//            rest 
+//            |> List.filter (fun x -> not(x % p = 0L))
+//
+//          filterRec current.Head primes@current
+//        else
+//          data
+//   
+//    let filterPrimes (data:list<int64>) =
+//      let result = filterRec 2L data
+//      result
+//
+//    let sieveOfEratosthenes (n:int64) = 
+//      printf "Running sieveOfEratosthenes\n"
+//
+//      let primes = 
+//        //let allNums = [2L..n]
+//        let oddNumsToN = [for i in 3L..n do if not(i % 2L = 0L) then yield i ]
+//        printf "allNums filled -> filtering primes\n"
+//        oddNumsToN
+//        |> filterPrimes
+//      printf "primes filtered\n"
+//      primes
+//
+//    let primeFactors n =
+//      sieveOfEratosthenes (n-1L)
+//      |> Seq.filter (fun x-> n % x= 0L)
+//
+//    primeFactors 131951212L
 //    |> Seq.max
 
     
@@ -144,7 +177,41 @@ module Problems_1_10
 //05886116467109405077541002256983155200055935729725
 //71636269561882670428252483600823257530420752963450
 
+let problem8 =
+  let theBigNumber = "73167176531330624919225119674426574742355349194934\
+                      96983520312774506326239578318016984801869478851843\
+                      85861560789112949495459501737958331952853208805511\
+                      12540698747158523863050715693290963295227443043557\
+                      66896648950445244523161731856403098711121722383113\
+                      62229893423380308135336276614282806444486645238749\
+                      30358907296290491560440772390713810515859307960866\
+                      70172427121883998797908792274921901699720888093776\
+                      65727333001053367881220235421809751254540594752243\
+                      52584907711670556013604839586446706324415722155397\
+                      53697817977846174064955149290862569321978468622482\
+                      83972241375657056057490261407972968652414535100474\
+                      82166370484403199890008895243450658541227588666881\
+                      16427171479924442928230863465674813919123162824586\
+                      17866458359124566529476545682848912883142607690042\
+                      24219022671055626321111109370544217506941658960408\
+                      07198403850962455444362981230987879927244284909188\
+                      84580156166097919133875499200524063689912560717606\
+                      05886116467109405077541002256983155200055935729725\
+                      71636269561882670428252483600823257530420752963450"
+  
+  let allProds = [for i in 0..theBigNumber.Length/2 do 
+                              yield theBigNumber|> 
+                                    Seq.skip i|> 
+                                    Seq.take 5|> 
+                                    Seq.map (string >> int)|> 
+                                    Seq.fold (fun acc elem -> acc * elem) 1]
 
+  let answer =
+    allProds
+    |> Seq.max
+
+  answer      
+    
 
 //Special Pythagorean triplet
 //Problem 9
@@ -160,5 +227,18 @@ module Problems_1_10
 //The sum of the primes below 10 is 2 + 3 + 5 + 7 = 17.
 //Find the sum of all the primes below two million.
 
+let problem10 =
+  let IsPrimeMultipleTest (n:int64) (x:int64) =
+      x = n || x % n <> 0L
 
+  let rec RemoveAllMultiples (listN:list<int64>) (listX:list<int64>) = 
+    match listN with
+    | head::tail -> RemoveAllMultiples tail (List.filter (IsPrimeMultipleTest head) listX)
+    | [] -> listX
 
+  let GetPrimesUpTo (n:int64) =
+    let max = int64 (sqrt(float n))
+    RemoveAllMultiples [2L..max] [2L..n]
+
+  GetPrimesUpTo 2000000L
+  |> Seq.sum
