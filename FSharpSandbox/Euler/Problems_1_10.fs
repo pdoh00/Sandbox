@@ -145,6 +145,24 @@ let problem2 =
 //Hence the difference between the sum of the squares of the first ten natural numbers and the square of the sum is 3025 − 385 = 2640.
 //Find the difference between the sum of the squares of the first one hundred natural numbers and the square of the sum.
 
+let problem6 =
+  let first100NaturalNumbers = [1..100]
+
+  let sumOfSquares = 
+    first100NaturalNumbers
+    |> Seq.map(fun x -> x*x)
+    |> Seq.sum
+
+  let sum =
+    first100NaturalNumbers
+    |> Seq.sum
+
+  let squareOfSums = sum*sum   
+
+  let answer = squareOfSums - sumOfSquares
+
+  answer
+
 //10001st prime
 //Problem 7
 //By listing the first six prime numbers: 2, 3, 5, 7, 11, and 13, we can see that the 6th prime is 13.
