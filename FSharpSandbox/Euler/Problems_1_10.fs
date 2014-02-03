@@ -39,9 +39,17 @@ module Problems_1_10 =
   //What is the largest prime factor of the number 600851475143 ?
   
   //http://en.wikipedia.org/wiki/Quadratic_sieve
-  //    let quadraticSieve (x:int64) = 
-  //      [x]
-  
+  let quadraticSieve (x:int64) = 
+    
+    let sqrt_int n = 
+      n |> float |> sqrt |> int64
+
+    let i = Math.Sqrt(x |> float)|>int64
+
+    let theRoot = sqrt_int x
+
+    theRoot
+
   //  let problem3 =
   //    let aryInit = [|for i in 2L..13195L do yield (i,true)|]
   //    
@@ -160,9 +168,36 @@ module Problems_1_10 =
   //pre-conditions I am thinking of
   //must be at least 20
   //must be even
+  let problem5 n =
+    let sw = new System.Diagnostics.Stopwatch()
+    sw.Start()
 
+    let evens = 
+      Seq.initInfinite (fun x -> x + n) 
+      |> Seq.filter (fun y -> y % 2 = 0)
 
-  
+    printf "Evens created in %d ms\n" sw.ElapsedMilliseconds
+
+    let div = [1..n]
+        
+    //the following implementation is very ineffecient
+    //it too 3007553ms to complete for n = 20.
+    //I would like to try asynch map/reduce in the future,
+    //bet think it could still be faster even synchronous.
+    let canBeEvenlyDivided (value:int) (divisors:seq<int>)=
+      divisors 
+      |> Seq.map(fun x -> value % x = 0) 
+      |> Seq.reduce (fun acc x -> acc && x)
+
+    sw.Restart()
+    let smallest =
+      evens
+      |> Seq.tryFind(fun z -> canBeEvenlyDivided z div)
+
+    printf "Smallest determined in %d ms\n" sw.ElapsedMilliseconds
+
+    smallest
+
   //Sum square difference
   //Problem 6
   //The sum of the squares of the first ten natural numbers is,
